@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    background-color: transparent;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(10px);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1f8ac0;
+}
+
+.login-container input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+
+.login-container input:focus {
+    border-color: #104c91;
+}
+
+.login-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1f8ac0;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-container button:hover {
+    background-color: #104c91;
+}
+
+.forgot {
+    font-size: 13px;
+    text-align: right;
+}
+
+.forgot a {
+    text-decoration: none;
+    color: red;
+}
+
+.register {
+    text-align: center;
+    font-size: 14px;
+}
+
+.register a {
+    text-decoration: none;
+    color: #1f8ac0;
+    font-weight: bold;
+}
+
+
+
+
+
+.custom-shape-divider-top-1771749851 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1771749851 svg {
+    position: relative;
+    display: block;
+    width: calc(170% + 1.6px);
+    height: 600px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-top-1771749851 .shape-fill {
+    fill: #efc9af;
+}
