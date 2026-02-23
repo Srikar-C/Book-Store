@@ -13,21 +13,23 @@ export class Login {
 
   constructor(private httpHelper: HttpHelper, private router: Router){}
 
-  name: string = "";
+  username: string = "";
   pass: string = ""; 
 
   onLogin()
   {
-    console.log(this.name+" "+this.pass);
+    console.log(this.username+" "+this.pass);
 
-    this.httpHelper.login({user:this.name,password:this.pass})
+    this.httpHelper.login({username:this.username,password:this.pass})
     .subscribe({
         next: (response) => {
-          console.log('Success:', response);
+          console.log('Login Successful:', response);
           this.router.navigate(['/home-page'])
         },
         error: (error) => {
-          console.error('Error:', error);
+          console.error('Error:', error.error.message,error);
+          var msg = error.error.message;
+          alert(msg.substring(2));
         }
       });
   }

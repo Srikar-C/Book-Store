@@ -14,18 +14,16 @@ namespace IdentityService.Repositories
         }
 
         // 🔥 Generic Insert
-        public async Task InsertAsync<T>(string collectionName, T data)
+        public async Task InsertAsync<User>(string collectionName, User data)
         {
-            var collection = _database.GetCollection<T>(collectionName);
+            var collection = _database.GetCollection<User>(collectionName);
             await collection.InsertOneAsync(data);
         }
 
         // 🔥 Generic Fetch
-        public async Task<List<T>> GetAsync<T>(
-            string collectionName,
-            FilterDefinition<T> filter)
+        public async Task<List<User>> GetAsync<User>(string collectionName, FilterDefinition<User> filter)
         {
-            var collection = _database.GetCollection<T>(collectionName);
+            var collection = _database.GetCollection<User>(collectionName);
             return await collection.Find(filter).ToListAsync();
         }
     }

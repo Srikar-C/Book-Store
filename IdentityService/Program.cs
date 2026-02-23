@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<LoginService>();
+builder.Services.AddSingleton<AuthService>();
 
 builder.Services.AddSingleton<MongoRepo>();
 

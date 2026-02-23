@@ -24,9 +24,9 @@ namespace IdentityService.Services
 
             return await _repo.GetAsync("Users", filter);
         }
-        public void Login(string user,string password)
+        public async Task Login(string user,string password)
         {
-            Console.WriteLine(user+" "+password);
+            await GetUser(user);
 
         }
     }

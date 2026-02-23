@@ -21,4 +21,14 @@ export class HttpHelper {
   login(data: any): Observable<any> {
     return this.post<any>('auth/login', data);
   }
+
+  register(data: any): Observable<any>
+  {
+    return this.post<any>('auth/register',data);
+  }
+
+  reset(data: any): Observable<any>
+  {
+    return this.post<any>('auth/reset', data);
+  }
 }

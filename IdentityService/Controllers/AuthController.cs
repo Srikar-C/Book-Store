@@ -1,36 +1,39 @@
-using System.Reflection.Emit;
+
 using IdentityService.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly LoginService _loginService;
+    private readonly AuthService _authService;
 
-    public AuthController(LoginService loginservice)
+    public AuthController(AuthService AuthService)
     {
-        _loginService = loginservice;
+        this._authService = AuthService;
     }
-    
-    [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest request)
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] User request)
     {
-        _loginService.Login(request.User,request.Password);
-        return Ok(new { message = "Login Successful" });
-      //  Console.WriteLine(request.User+" "+request.Password);
-    /*    if (request.User == "csk" && request.Password == "123456")
+        string str = await _authService.RegisterUser(request);
+        Console.WriteLine("message-> "+str);
+        if(str!="3 Registration Success")
         {
-            return Ok(new { message = "Login Successful" });
+            return BadRequest(new {message = str});
         }
-
-        return Unauthorized(new { message = "Invalid credentials" }); */
+        return Ok(new {message = "Register Successful"});
     }
-}
 
-public class LoginRequest
-{
-    public string? User { get; set; }
-    public string? Password { get; set; }
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] User request)
+    {
+        string str = await _authService.LoginUser(request);
+        Console.WriteLine("message-> "+str);
+        if(str!="1 Login Successful")
+        {
+            return BadRequest(new {message = str});
+        }
+        return Ok(new {message = "Login Successful"});
+    }
 }
