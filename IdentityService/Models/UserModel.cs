@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-public class User
+public class UserModel
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
@@ -10,5 +10,5 @@ public class User
     public string? Username { get; set; }
     public string? Email {get; set;}
     public string? Password { get; set; }
-    public string? Cfn_Password{get; set; }
+    
 }

@@ -57,6 +57,35 @@ body {
     background-color: #104c91;
 }
 
+
+.password
+{
+    display: flex;
+    background-color: white;
+    color: black;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    justify-content: space-between;
+    position: relative;
+}
+
+.password input
+{
+    background-color: transparent;
+    border: none;
+}
+
+.password svg {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
 .forgot {
     font-size: 13px;
     text-align: right;

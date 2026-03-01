@@ -84,6 +84,34 @@ body {
 }
 
 
+.password, .cfn-password
+{
+    display: flex;
+    background-color: white;
+    color: black;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    justify-content: space-between;
+    position: relative;
+}
+
+.password input, .cfn-password input
+{
+    background-color: transparent;
+    border: none;
+}
+
+.password svg, .cfn-password svg {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
 
 
 

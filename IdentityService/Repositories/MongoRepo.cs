@@ -14,17 +14,26 @@ namespace IdentityService.Repositories
         }
 
         // 🔥 Generic Insert
-        public async Task InsertAsync<User>(string collectionName, User data)
+        public async Task InsertAsync<UserModel>(string collectionName, UserModel data)
         {
-            var collection = _database.GetCollection<User>(collectionName);
+            Console.WriteLine("Inside mongo creation");
+            var collection = _database.GetCollection<UserModel>(collectionName);
             await collection.InsertOneAsync(data);
         }
 
         // 🔥 Generic Fetch
-        public async Task<List<User>> GetAsync<User>(string collectionName, FilterDefinition<User> filter)
+        public async Task<List<UserModel>> GetAsync<UserModel>(string collectionName, FilterDefinition<UserModel> filter)
         {
-            var collection = _database.GetCollection<User>(collectionName);
+            Console.WriteLine("Inside mongo Find");
+            var collection = _database.GetCollection<UserModel>(collectionName);
             return await collection.Find(filter).ToListAsync();
+        }
+
+        public async Task ResetAsync(string collectionName, FilterDefinition<UserModel> filter, UpdateDefinition<UserModel> update)
+        {
+            Console.WriteLine("Inside mongo reset");
+            var collection = _database.GetCollection<UserModel>(collectionName);
+            await collection.UpdateOneAsync(filter,update);
         }
     }
 }
