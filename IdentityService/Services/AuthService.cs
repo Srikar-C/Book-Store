@@ -57,7 +57,7 @@ namespace IdentityService.Services
 
         public async Task<LoginResponseModel> LoginUser(LoginModel user)
         {
-            Console.WriteLine("user details-> :"+user.Username+" "+user.Password);
+            Console.WriteLine("user details-> :",user.Username,user.Password);
             var userFilter = Builders<UserModel>.Filter.Eq(u=> u.Username, user.Username);
 
             var userMatch = await _repo.GetAsync("Users",userFilter);
@@ -69,7 +69,7 @@ namespace IdentityService.Services
             
             var dbUser = userMatch.First();
 
-            Console.WriteLine("dbuser-> "+dbUser.Email+" "+dbUser.Username+" "+dbUser.Password);
+            Console.WriteLine("dbuser-> ",dbUser.Email,dbUser.Username,dbUser.Password);
 
             bool validPassword = BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password);
 
@@ -83,7 +83,7 @@ namespace IdentityService.Services
 
         public async Task<string> ResetPassword(ForgotModel user)
         {
-            Console.WriteLine("user details-> :"+user.Username+" "+user.Password);
+            Console.WriteLine("user details-> :",user.Username,user.Password);
 
             if(user.Password != user.Cfn_Password)
             {
@@ -123,7 +123,10 @@ namespace IdentityService.Services
             var filter = Builders<UserModel>.Filter.Eq(u=>u.Id,userid);
             var userDtls = await _repo.GetAsync("Users",filter);
 
+            Console.WriteLine("userdtls--> ",userDtls);
             var user = userDtls.First();
+
+            Console.WriteLine("user--> "+user);
 
             UserModel newuser = new UserModel() {
                 Id = user.Id,

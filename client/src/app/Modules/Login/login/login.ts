@@ -33,23 +33,16 @@ export class Login {
 
   onLogin()
   {
-    console.log(this.username+" "+this.pass);
-
-    if(this.username==="admin"){
-      this.role = "admin"
-    }
-    else{
-      this.role = "user"
-    }
-
-    this.httpHelper.login({Username:this.username,Password:this.pass,Role:this.role})
+    this.httpHelper.login({Username:this.username,Password:this.pass})
     .subscribe({
         next: (response) => {
           console.log('Login Successful:', response);
           localStorage.setItem('token',response.token);
+          localStorage.setItem('userid', response.id);
+          localStorage.setItem('username',this.username);
           this.httpHelper.saveToken(response.token);
           console.log("token--> :"+response.token);
-          this.router.navigate([this.username,'home'],{ replaceUrl: true })
+          this.router.navigate(['/home'],{ replaceUrl: true })
         },
         error: (error) => {
           console.error('Error:', error.error.message,error);

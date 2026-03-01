@@ -59,7 +59,7 @@ public class AuthController : ControllerBase
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddHours(24),
             signingCredentials: creds
         );
 
@@ -85,16 +85,22 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("profile")]
+    [HttpPost("profile")]
     public async Task<IActionResult> Profile()
     {
+        Console.WriteLine("id--> "+ClaimTypes.NameIdentifier);
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        Console.WriteLine("userid-> "+userId);
 
         if (string.IsNullOrEmpty(userId))
+        {
+            Console.WriteLine("null-> "+userId);
             return Unauthorized();
+        }
 
         UserModel str = await _authService.GetProfile(userId);
 
+        Console.WriteLine("got user-> "+str);
         return Ok(new {message = "Got Dtls", user = str});
 
     }

@@ -21,10 +21,10 @@ export const routes: Routes = [
     { path: ':username', component: HomePage, canActivate: [authGuard], 
          children:[
             { path: 'home', component: Home },
-            { path: 'profile', component: Profile },
+            { path: 'profile', component: Profile, runGuardsAndResolvers: 'always' },
             { path: 'orders', component: Orders },
             { path: 'cart', component: Cart },
-            { path: '', redirectTo: 'home', pathMatch: 'full' }
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
          ] 
     },
     

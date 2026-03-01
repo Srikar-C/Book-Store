@@ -16,14 +16,15 @@ p
 
 .left{
     width: 150px;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease-in-out;
     height: 100vh;
     border-right: 1px solid black;
-    position: relative;
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    top: 0;
+    left: 0;    
 }
 
 .content
@@ -37,7 +38,7 @@ p
     gap: 25px;
 }
 
-.hamburger, .home, .orders, .cart, .logout
+.hamburger, .home, .orders, .cart, .logout, .profile
 {
     cursor: pointer;
 }
@@ -146,8 +147,20 @@ p
     justify-content: center;
     gap: 0px;
     p{ 
-        transition: opacity 0.2s ease;
+        transition: opacity 0.2s ease-in-out;
         opacity: 0;
         transform: translateX(-10px);
     }
+}
+
+.right
+{
+    margin-left: 150px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.rightToggle
+{
+    margin-left: 70px;
+    flex: 1;
 }
