@@ -2,20 +2,23 @@
 using System.ComponentModel;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using IdentityService.Repositories;
+using CatalogueService.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Driver;
 
-namespace IdentityService.Services
+namespace CatalogueService.Services
 {
     public class BookService
     {
 
+        private readonly IDistributedCache _cache;
         private readonly MongoRepo _repo;
 
-        public BookService(MongoRepo repo)
+        public BookService(MongoRepo repo, IDistributedCache cache)
         {
             this._repo = repo;
+            this._cache = cache;
         }
         
         public async Task<List<BooksModel>> GetBooks()
@@ -42,34 +45,6 @@ namespace IdentityService.Services
             return "inserted";
         }
 
-        public async Task<string> AddToCart(List<BooksModel> carts, string userId)
-        {
-            Console.WriteLine("userid in cart-> "+userId);
-            Console.WriteLine("carts-> "+carts);
-
-            await _repo.InsertMany("Carts", carts, userId);
-            return "inserted";
-        }
-        public async Task<List<BooksModel>> GetCarts(string userid)
-        {
-            var filter = Builders<CartModel>.Filter.Eq(c=> c.UserId, userid);
-
-            List<CartModel> cartDocs = await _repo.GetCartAsync("Carts",filter);
-            List<BooksModel> allBooks = cartDocs
-                .Where(c => c.Carts != null)
-                .SelectMany(c => c.Carts)
-                .ToList();
-            return allBooks ?? new List<BooksModel>();
-        }
-
-        public async Task<List<BooksModel>> RemoveCart(BooksModel request)
-        {
-            var filter = Builders<CartModel>.Filter.Eq(c=>c.UserId, request.UserId);
-
-            var update = Builders<CartModel>.Update.PullFilter(c=>c.Carts,b=>b.Id == request.Id);
-            
-            List<BooksModel> remBooks = await _repo.UpdateCart("Carts",filter,update);
-            return remBooks;
-        }
+       
     }
 }

@@ -1,0 +1,16 @@
+:root {
+  --color-primary-dark: #1E3A8A;
+  --color-primary: #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-gradient: #4F46E5;
+  
+  --color-bg-light: #f5f5f5;
+  --color-card-bg: #FFFFFF;
+  
+  --color-border: #bbbbbb;
+
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+
+  --color-accent-soft: #FDE68A;
+} 

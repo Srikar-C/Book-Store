@@ -7,6 +7,6 @@ public class OrderModel
     [BsonRepresentation(BsonType.ObjectId)]
 
     public string? Id {get; set;}
-
-    public string OrderId {get; set;}
+    public string? UserId {get; set;}
+    public List<CartModel>? Orders{get; set;}
 }

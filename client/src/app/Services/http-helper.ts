@@ -77,7 +77,7 @@ export class HttpHelper {
   { 
     const token = this.getToken();
     console.log("helper data for carts-> ",data);
-    return this.post<any>('book/addCarts', data, this.bookUrl,{
+    return this.post<any>('orders/addCarts', data, this.orderUrl,{
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -87,15 +87,15 @@ export class HttpHelper {
 
   getCarts(data: string | null): Observable<any>
   {
-    console.log("heleper data-> :" +data);
-    return this.post<any>('book/getCarts', {UserId: data}, this.bookUrl);
+    console.log("heleper data-> :" ,data);
+    return this.post<any>('orders/getCarts', {UserId: data}, this.orderUrl);
   }
 
   removeOne(data: string | null): Observable<any>
   {
     const token = this.getToken();
-    console.log("helper data in remove-> : "+data);
-    return this.post<any>('book/removeCart', data, this.bookUrl,{
+    console.log("helper data in remove-> : ",data);
+    return this.post<any>('orders/removeCart', data, this.orderUrl,{
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -106,8 +106,8 @@ export class HttpHelper {
   setOrders(data: any): Observable<any>
   {
     const token = this.getToken();
-    console.log("helper data in remove-> : "+data);
-    return this.post<any>('order/orders', data, this.orderUrl,{
+    console.log("helper data in orders-> : ",data);
+    return this.post<any>('orders/addOrders', data, this.orderUrl,{
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'

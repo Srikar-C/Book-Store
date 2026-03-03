@@ -37,3 +37,13 @@ C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\obj\Debug\net8.
 C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\obj\Debug\net8.0\CatalogueService.pdb
 C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\obj\Debug\net8.0\CatalogueService.genruntimeconfig.cache
 C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\obj\Debug\net8.0\ref\CatalogueService.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\StackExchange.Redis.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\nataraj024\Documents\srikar\Book-Store\CatalogueService\bin\Debug\net8.0\System.IO.Hashing.dll

@@ -1,5 +1,5 @@
-using IdentityService.Repositories;
-using IdentityService.Services;
+using CatalogueService.Services;
+using CatalogueService.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<BookService>();
 
 builder.Services.AddSingleton<MongoRepo>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+});
 
 builder.Services.AddCors(options =>
 {

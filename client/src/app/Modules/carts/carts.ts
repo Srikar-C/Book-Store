@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { HttpHelper } from '../../Services/http-helper';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-cart',
+  selector: 'app-carts',
   imports: [CommonModule, RouterLink, RouterOutlet],
-  templateUrl: './cart.html',
-  styleUrl: './cart.css',
+  templateUrl: './carts.html',
+  styleUrl: './carts.css',
 })
-export class Cart {
+export class Carts {
 
-  constructor(private httpHelper: HttpHelper,private route: ActivatedRoute){}
+  constructor(private httpHelper: HttpHelper,private route: ActivatedRoute, private router: Router){}
 
   carts: any[] = [];
 
@@ -58,10 +58,16 @@ export class Cart {
   {
     this.userid = localStorage.getItem('userid');
     console.log("userid in frontend-> "+this.userid);
-    this.httpHelper.setOrders(this.carts).subscribe({
+    const orderload = {
+      UserId: this.userid,
+      Orders: this.carts,
+    }
+    this.httpHelper.setOrders(orderload).subscribe({
       next: (response)=>{
         console.log("data-> ",response);
         this.carts = response;
+        this.carts = [];
+        this.router.navigate(['/home/orders']);
       },
       error: (error)=>{
         console.log("Error in fetching all carts",error);

@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { HttpHelper } from '../../Services/http-helper';
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { HttpHelper } from '../../Services/http-helper';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-books',
   imports: [CommonModule, RouterLink, RouterOutlet],
-  templateUrl: './home.html',
-  styleUrl: './home.css',
+  templateUrl: './books.html',
+  styleUrl: './books.css',
 })
-export class Home {
+export class Books {
 
   constructor(private httpHelper: HttpHelper, private route: ActivatedRoute, private router: Router){}
 
@@ -77,12 +77,11 @@ export class Home {
           this.books.forEach(b=> b.bookSelect = false);
         }
         this.carts = [];
-        this.router.navigate([this.username,'cart']);
+        this.router.navigate(['/cart']);
       },
       error: (error)=>{
         console.log("Error in checkout cart",error);
       }
     })
   }
-
 }

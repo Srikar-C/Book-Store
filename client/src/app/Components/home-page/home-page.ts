@@ -1,25 +1,19 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { HttpHelper } from '../../Services/http-helper';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
   imports: [RouterLink, RouterOutlet],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
+  standalone: true,
 })
-export class HomePage { 
+export class HomePage {
 
   constructor(private httpHelper: HttpHelper, private router: Router){}
 
   userid : string = "";
-
-  isOpen = true;
-
-  handleAside() {
-    this.isOpen = !this.isOpen;
-  }
-
 
   logout()
   {
@@ -35,5 +29,4 @@ export class HomePage {
       }
     })
   }
-
 }
