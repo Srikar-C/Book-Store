@@ -1,3 +1,4 @@
+using CartService.Services;
 using OrderService.Repositories;
 using OrderService.Services;
 
@@ -6,7 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+}); 
+
 builder.Services.AddSingleton<OrderServices>();
+
+builder.Services.AddSingleton<CartServices>();
 
 builder.Services.AddSingleton<MongoRepo>();
 

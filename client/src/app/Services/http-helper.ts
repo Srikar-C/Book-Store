@@ -115,4 +115,10 @@ export class HttpHelper {
     });
   }
 
+  getOrders(data: string | null): Observable<any>
+  {
+    console.log("heleper data-> :" ,data);
+    return this.post<any>('orders/getOrders', {UserId: data}, this.orderUrl);
+  }
+
 }

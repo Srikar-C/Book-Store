@@ -53,5 +53,12 @@ namespace OrderService.Repositories
             };
             await collection.InsertOneAsync(order);
         }
+
+        public async Task<List<OrderModel>> GetOrderAsync<OrderModel>(string collectionName, FilterDefinition<OrderModel> filter)
+        {
+            Console.WriteLine("Inside mongo Find");
+            var collection = _database.GetCollection<OrderModel>(collectionName);
+            return await collection.Find(filter).ToListAsync();
+        }
     }
 }

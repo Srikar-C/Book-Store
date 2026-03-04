@@ -77,7 +77,7 @@ export class Books {
           this.books.forEach(b=> b.bookSelect = false);
         }
         this.carts = [];
-        this.router.navigate(['/cart']);
+        this.router.navigate(['/home/cart']);
       },
       error: (error)=>{
         console.log("Error in checkout cart",error);
