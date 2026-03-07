@@ -1,0 +1,23 @@
+<div class="book-main relative ">
+    <button *ngIf = "kindOfUser!='admin'" type="button" class="px-4 py-2 absolute right-3 top-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer" (click)="checkOut()">Checkout</button>
+    <div class="book-list flex flex-row gap-8 flex-wrap p-8 justify-center">
+        <div *ngFor="let book of books" class="mt-10 book-card border-2 w-[300px] h-[350px] border-gray-300 rounded-lg p-4 bg-white">
+            <img [src]="book.url" alt="{{ book.title }}" class="w-[300px] h-[200px] object-cover mb-4 rounded">
+            <h2 class="text-xl font-semibold mb-2">{{ book.title }}</h2>
+            <p class="text-gray-600 mb-2">Author: {{ book.author }}</p>
+            <div class="dtls flex justify-between items-center">
+                <p class="text-gray-800 font-bold">Price: ${{ book.price }}</p>
+                <button *ngIf = "kindOfUser!='admin' && book.selected==false" type="button" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer" (click)="addToCart(book)">Add Cart</button>
+                <div *ngIf = "kindOfUser!='admin' && book.selected==true" class="numcart flex items-center justify-between rounded-lg w-[100px] h-[40px] border-2 border-blue-600">
+                    <p class="number ml-1">Added</p> 
+                    <span class="minus rounded-r-lg bg-blue-600 text-white p-3 cursor-pointer" (click)="removeCart(book)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

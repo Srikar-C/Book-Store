@@ -1,0 +1,18 @@
+:root
+{
+    --color-primary: #6D28D9;
+    --color-primary-hover: #7C3AED;
+    --color-primary-dark: #5B21B6;
+    --color-primary-light: #DDD6FE;
+    --color-primary-bg: #F5F3FF;
+
+    --color-text-primary: #111827;
+    --color-text-secondary: #374151;
+    --color-text-muted: #6B7280;
+
+    --color-border: #E5E7EB;
+    --color-bg-light: #F9FAFB;
+    --color-white: #FFFFFF;
+
+    --bg-main: #F7F8FC;
+}

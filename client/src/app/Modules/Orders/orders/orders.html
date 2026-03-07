@@ -1,0 +1,14 @@
+<div class="order-main relative">
+    <div *ngIf="orders.length > 0" class="order-list flex flex-row gap-8 flex-wrap p-8">
+        <div *ngFor="let order of orders" class="mt-10 book-card border-2 w-[300px] h-[350px] border-gray-300 rounded-lg p-4 bg-white">
+            <img [src]="order.url" alt="{{ order.title }}" class="w-[300px] h-[200px] object-cover mb-4 rounded">
+            <h2 class="text-xl font-semibold mb-2">{{ order.title }}</h2>
+            <p class="text-gray-600 mb-2">Author: {{ order.author }}</p>
+            <p class="text-gray-800 font-bold">Price: ${{ order.price }}</p>
+        </div>
+    </div>
+    <div>
+        <h2 *ngIf="orders.length === 0" class="text-2xl font-semibold text-gray-600 text-center mt-20">Your Have No Orders</h2>
+    </div>
+
+</div>

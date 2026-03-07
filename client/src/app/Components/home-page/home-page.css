@@ -1,0 +1,31 @@
+.nav {
+  position: relative;
+}
+
+.nav a {
+  font-weight: 600;
+  padding: 0.5rem 2.5rem;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: black;
+}
+
+.nav-item.selected {
+  color: black;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34%;
+  height: 100%;
+  background-color: white;
+  border-radius: inherit;
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
