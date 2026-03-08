@@ -1,0 +1,4 @@
+.svg1, .svg2, .svg3{
+    transform: rotateX(54deg);
+    border: 1px solid black;
+}

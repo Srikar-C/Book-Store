@@ -17,10 +17,30 @@ namespace OrderService.Repositories
             await collection.InsertOneAsync(order);
         }
 
-        public async Task<List<T>> FindOrderAsync<T>(string collectionName, FilterDefinition<T> filter)
+        public async Task<List<OrderModel>> FindOrderAsync<OrderModel>(string collectionName, FilterDefinition<OrderModel> filter)
         {
-            var collection = _database.GetCollection<T>(collectionName);
+            var collection = _database.GetCollection<OrderModel>(collectionName);
             return await collection.Find(filter).ToListAsync();
+        }
+
+
+        public async Task<CartModel> InsertCartAsync(string collectionName, FilterDefinition<CartModel> filter, UpdateDefinition<CartModel> update, string userId, List<BookModel> request)
+        {
+            var collection = _database.GetCollection<CartModel>(collectionName);
+            await collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
+            return new CartModel { UserId = userId, Carts = request };
+        }
+
+        public async Task<List<CartModel>> FindCartAsync(string collectionName, FilterDefinition<CartModel> filter)
+        {
+            var collection = _database.GetCollection<CartModel>(collectionName);
+            return await collection.Find(filter).ToListAsync();
+        }
+
+        public async Task UpdateCartAsync(string collectionName, FilterDefinition<CartModel> filter, UpdateDefinition<CartModel> update)
+        {
+            var collection = _database.GetCollection<CartModel>(collectionName);
+            await collection.UpdateOneAsync(filter, update);
         }
     }
 }

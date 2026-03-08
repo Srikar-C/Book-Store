@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { HttpHelper } from '../../../Services/http-helper';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-carts',
@@ -15,6 +16,8 @@ export class Carts {
   carts: any[] = [];
 
   kindOfUser : string = localStorage.getItem('userEmail') === 'admin' ? 'admin' : 'user';
+
+  toastr = inject(ToastrService);
 
   constructor(private httpHelper: HttpHelper, private router: Router, private cd: ChangeDetectorRef) { }
 
@@ -39,41 +42,73 @@ export class Carts {
       },
       error: (error) => {
         console.error('Failed to retrieve carts:', error);
+        this.toastr.error(error.error.message,'Error');
       }
     });
+  }
+
+  decrement(carts: any)
+  {
+    if(carts.count>0){
+      carts.count = carts.count - 1;
+      var apiUrl = 'http://localhost:5284/api'; 
+      const token = localStorage.getItem('token');
+      console.log('Removing from cart:', carts);
+      var payload = { bookId: carts.id };
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+      this.httpHelper.delete(apiUrl, `cart/decrementFromCart/${carts.id}`, payload, { headers: headers })
+      .subscribe({
+        next: (response) => {
+          console.log('Book removed from cart successfully:', response);
+          this.getCarts();
+        },
+        error: (error) => {
+          console.error('Failed to remove book from cart:', error);
+          this.toastr.error(error.error.message,'Error');
+        }
+      });
+    }
+    else
+    {
+      this.removeFromCart(carts);
+    }
   }
 
   placeOrder()
   {
     console.log("placed order");
-    var url = 'http://localhost:5284/api'; 
+    var apiUrl = 'http://localhost:5284/api'; 
     const token = localStorage.getItem('token');
     console.log('Carts to checkout:', this.carts);
     var payload = this.carts;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
-    this.httpHelper.post(url, 'order/placeOrder', payload, { headers: headers })
+    this.httpHelper.post(apiUrl, 'order/placeOrder', payload, { headers: headers })
     .subscribe({
       next: (response) => {
         console.log('Order placed successfully:', response);
         this.getCarts();
+        this.router.navigate(['/home/orders']);
       },
       error: (error) => {
         console.error('Failed to place order:', error);
+        this.toastr.error(error.error.message,'Error');
       }
     });
   }
 
-  removeFromCart(book: any) {
-    var url = 'http://localhost:5284/api'; 
+  removeFromCart(carts: any) {
+    var apiUrl = 'http://localhost:5284/api'; 
     const token = localStorage.getItem('token');
-    console.log('Removing from cart:', book);
-    var payload = { bookId: book.id };
+    console.log('Removing from cart:', carts);
+    var payload = { bookId: carts.id };
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
-    this.httpHelper.delete(url, `cart/removeFromCart/${book.id}`, payload, { headers: headers })
+    this.httpHelper.delete(apiUrl, `cart/removeFromCart/${carts.id}`, payload, { headers: headers })
     .subscribe({
       next: (response) => {
         console.log('Book removed from cart successfully:', response);
@@ -81,6 +116,7 @@ export class Carts {
       },
       error: (error) => {
         console.error('Failed to remove book from cart:', error);
+        this.toastr.error(error.error.message,'Error');
       }
     });
   }

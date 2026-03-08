@@ -24,5 +24,19 @@ namespace CatalogueService.Repositories
             var collection = _database.GetCollection<BookModel>(collectionName);
             await collection.InsertOneAsync(request);
         }
+
+        public async Task ReplaceBookAsync(string collectionName, FilterDefinition<BookModel> filter, BookModel request)
+        {
+            Console.WriteLine("Inside update Book");
+            var collection = _database.GetCollection<BookModel>(collectionName);
+            await collection.ReplaceOneAsync(filter, request);
+        }
+
+        public async Task UpdateQuantityAsync(string collectionName, FilterDefinition<BookModel> filter, UpdateDefinition<BookModel> update)
+        {
+            Console.WriteLine("Inside update quantity");
+            var collection = _database.GetCollection<BookModel>(collectionName);
+            await collection.UpdateOneAsync(filter, update);
+        }
     }
 }

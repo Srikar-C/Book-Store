@@ -1,5 +1,7 @@
+using System.Security.Cryptography;
 using IdentityService.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -59,6 +61,63 @@ public class AuthController: ControllerBase
         else
         {
             return BadRequest(new {message= result.Message});
+        }
+    }
+
+    [HttpPost("sendOtp")]
+    public async Task<IActionResult> SendOtp([FromBody] EmailRequest request)
+    {
+        var existingUser = await _service.GetUser(request.Email);
+
+        if(!existingUser.Success)
+        {
+            return BadRequest(new {message = existingUser.Message});
+        }
+
+        Console.WriteLine("Entering to create a otp"+ request.Email);
+        var random = RandomNumberGenerator.Create();
+        var bytes = new byte[6 / 2]; 
+        random.GetBytes(bytes);
+        string otp = BitConverter.ToString(bytes).Replace("-", "").Substring(0, 6);
+        var result = await _service.sendOtpToUser(request.Email,otp);
+        if (result.Success)
+        {
+            return Ok(new {message= result.Message, otp = otp, email = request.Email});
+        }
+        else
+        {
+            return BadRequest(new {message= result.Message});
+        }
+    }
+
+    [HttpPost("changePassword")]
+    public async Task<IActionResult> ChangePassword([FromBody] EmailRequest request)
+    {
+        Console.WriteLine("Entered to change password for user",request.Email);
+        var result = await _service.changePasswordForUser(request);
+        if(result.Success)
+        {
+            return Ok(new {message= result.Message});
+        }
+        else
+        {
+            return BadRequest(new {message= result.Message});
+        }
+    }
+
+    [HttpPost("getProfile")]
+    public async Task<IActionResult> GetProfile([FromBody] LoginModel request)
+    {
+        // var userId = User.FindFirst("id")?.Value;
+        Console.WriteLine("Entered to get user profile "+request.Id);
+        var result = await _service.GetDate(request.Id);
+        if(result.Success)
+        {
+            return Ok(new {message = result.Message, data = result.User});
+        }
+        else
+        {
+            return BadRequest(new {message = result.Message});
         }
     }
 }

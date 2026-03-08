@@ -8,4 +8,5 @@ public class OrderModel
     public string? Id {get; set;}
     public string UserId { get; set; }
     public List<BookModel> Orders { get; set; }
+    public DateTime? GetDateTime {get; set;} = DateTime.UtcNow;
 }

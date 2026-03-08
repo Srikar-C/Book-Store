@@ -35,5 +35,12 @@ namespace CatalogueService.Services
             Console.WriteLine("Books retrieved successfully. Count: " + books.Count);
             return new ResponseModel { Success = true, Message = "Books retrieved successfully", Data = books };
         }
+
+        public async Task<ResponseModel> EditBook(BookModel request)
+        {
+            var filter = Builders<BookModel>.Filter.Eq(b=> b.Id, request.Id);
+            await _repo.ReplaceBookAsync("Books", filter, request);
+            return new ResponseModel { Success = true, Message = "Book details updated"};
+        }
     }
 }

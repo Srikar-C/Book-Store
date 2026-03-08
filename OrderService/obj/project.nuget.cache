@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "e01JiBACM8U=",
+  "dgSpecHash": "EtBR4NpogHM=",
   "success": true,
   "projectFilePath": "C:\\Users\\nataraj024\\Documents\\Book-store\\OrderService\\OrderService.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\nataraj024\\.nuget\\packages\\confluent.kafka\\2.13.2\\confluent.kafka.2.13.2.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\nataraj024\\.nuget\\packages\\librdkafka.redist\\2.13.2\\librdkafka.redist.2.13.2.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\10.0.3\\microsoft.extensions.caching.abstractions.10.0.3.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\microsoft.extensions.caching.stackexchangeredis\\10.0.3\\microsoft.extensions.caching.stackexchangeredis.10.0.3.nupkg.sha512",

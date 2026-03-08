@@ -9,6 +9,8 @@ builder.Services.AddSingleton<BookService>();
 
 builder.Services.AddSingleton<MongoRepo>();
 
+builder.Services.AddHostedService<KafkaConsumerService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",

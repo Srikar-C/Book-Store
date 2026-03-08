@@ -9,6 +9,7 @@ import { Orders } from './Modules/Orders/orders/orders';
 import { Carts } from './Modules/Orders/carts/carts';
 import { Verify } from './Modules/Register/verify/verify';
 import { BookentryComponent } from './Components/bookentry/bookentry.component';
+import { ChangePasswordComponent } from './Components/change-password/change-password.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,6 +18,7 @@ export const routes: Routes = [
     { path: 'signup', component: Register },
     { path: 'login', component: Login },
     { path: 'verify', component: Verify },
+    { path: 'change-password', component: ChangePasswordComponent},
     {
         path: 'home',
         component: HomePage, 
@@ -25,7 +27,8 @@ export const routes: Routes = [
             { path: 'profile', component: Profile },
             { path: 'orders', component: Orders },
             { path: 'carts', component: Carts },
-            { path: 'addBook', component: BookentryComponent }
+            { path: 'addBook', component: BookentryComponent },
+            { path: 'editBook', component: BookentryComponent }
         ]
     },
 ];

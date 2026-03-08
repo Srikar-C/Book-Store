@@ -19,11 +19,18 @@ namespace IdentityService.Repositories
             return await collection.Find(filter).ToListAsync();
         }
 
-        internal async Task InsertUserAsync(string collectionName, RegisterModel request)
+        public async Task InsertUserAsync(string collectionName, RegisterModel request)
         {
             Console.WriteLine("Inside creating User");
             var collection = _database.GetCollection<RegisterModel>(collectionName);
             await collection.InsertOneAsync(request);
         }
+
+        public async Task UpdatePasswordAsync(string collectionName, FilterDefinition<RegisterModel> filter, UpdateDefinition<RegisterModel> update)
+        {
+            var collection = _database.GetCollection<RegisterModel>(collectionName);
+            await collection.UpdateOneAsync(filter, update);
+        }
+
     }
 }

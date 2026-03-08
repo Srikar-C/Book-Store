@@ -43,4 +43,20 @@ public class BookController: ControllerBase
             return BadRequest(new { message = books.Message });
         }
     }
+
+    [HttpPost("editBook")]
+    public async Task<IActionResult> EditBooks([FromBody] BookModel request)
+    {
+        Console.WriteLine("Received request to edit book: " + request.Title);
+        var result = await _service.EditBook(request);
+
+        if (result.Success)
+        {
+            return Ok(new {message= result.Message});
+        }
+        else
+        {
+            return BadRequest(new {message= result.Message});
+        }
+    }
 }

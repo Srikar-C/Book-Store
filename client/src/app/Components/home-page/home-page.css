@@ -11,11 +11,12 @@
 }
 
 .nav a:hover {
-  color: black;
+  transform: scale(1.2);
+  /* background-color: black; */
 }
 
 .nav-item.selected {
-  color: black;
+  color: white;
 }
 
 .slider {
@@ -24,8 +25,71 @@
   left: 0;
   width: 34%;
   height: 100%;
-  background-color: white;
+  background-color: black;
   border-radius: inherit;
   transition: transform 0.3s ease;
   z-index: 0;
+}
+
+.hamburger
+{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5px 0px 0px 5px;
+}
+
+
+.menu {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+}
+.line {
+  fill: none;
+  stroke: black;
+  stroke-width: 6;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.line1 {
+  stroke-dasharray: 60 207;
+  stroke-width: 6;
+}
+.line2 {
+  stroke-dasharray: 60 60;
+  stroke-width: 6;
+}
+.line3 {
+  stroke-dasharray: 60 207;
+  stroke-width: 6;
+}
+.opened .line1 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 6;
+}
+.opened .line2 {
+  stroke-dasharray: 1 60;
+  stroke-dashoffset: -30;
+  stroke-width: 6;
+}
+.opened .line3 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 6;
+}
+
+.leftToggle
+{
+    width: 70px;
+    p{
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        overflow: hidden;
+    }
 }

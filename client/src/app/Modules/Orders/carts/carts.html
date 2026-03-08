@@ -1,18 +1,27 @@
 <div class="cart-main relative">
-    <button *ngIf="carts.length > 0"  type="button" class="px-4 py-2 absolute right-3 top-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer" (click)="placeOrder()">Place Order</button>
+    <button *ngIf="carts.length > 0"  type="button" class="px-4 py-2 fixed right-6 bottom-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer" (click)="placeOrder()">Place Order</button>
     <div *ngIf="carts.length > 0" class="cart-list flex flex-row gap-8 flex-wrap p-8">
-        <div *ngFor="let cart of carts" class="mt-10 book-card border-2 w-[300px] h-[350px] border-gray-300 rounded-lg p-4 bg-white">
+        <div *ngFor="let cart of carts" class="mt-10 cart-card border-2 w-[250px] h-[350px] border-gray-300 rounded-lg p-4 bg-white relative">
+            <span class="quantity absolute right-0 top-0 h-[35px] w-[35px] rounded-full text-white bg-black flex items-center justify-center">{{cart.count}}</span>
             <img [src]="cart.url" alt="{{ cart.title }}" class="w-[300px] h-[200px] object-cover mb-4 rounded">
             <h2 class="text-xl font-semibold mb-2">{{ cart.title }}</h2>
             <p class="text-gray-600 mb-2">Author: {{ cart.author }}</p>
-            <div class="dtls flex justify-between items-center">
-                <p class="text-gray-800 font-bold">Price: ${{ cart.price }}</p>
-                <button type="button" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer" (click)="removeFromCart(cart)">Remove</button>
+            <div class="dtls flex relative justify-between items-center">
+                <p class="text-gray-800 font-bold">Price: {{ cart.price }}</p>
+                <button *ngIf="cart.count==1" type="button" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer" (click)="removeFromCart(cart)">Remove</button>
+                <div *ngIf = "kindOfUser!='admin' && cart.count>1 && cart.selected==true" class="numcart absolute right-0 bottom-0 mb-[-15px] gap-1 flex items-center rounded-lg w-[110px] h-[40px] border-2 border-blue-600">
+                    <span class="minus rounded-l-lg text-white p-3 cursor-pointer bg-blue-600" (click)="decrement(cart)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+                        </svg>
+                    </span>
+                    <p class="number w-[50px] text-center">{{cart.count}}</p> 
+                </div>
             </div>
         </div>
     </div>
-    <div>
-        <h2 *ngIf="carts.length === 0" class="text-2xl font-semibold text-gray-600 text-center mt-20">Your cart is empty</h2>
-    </div>
+    <h2 *ngIf="carts.length === 0" class="text-2xl font-semibold text-gray-600 text-center mt-20">Your cart is empty</h2>
+
 
 </div>

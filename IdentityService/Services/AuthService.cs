@@ -1,10 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using IdentityService.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
+using StackExchange.Redis;
 
 namespace IdentityService.Services
 {
@@ -12,11 +15,13 @@ namespace IdentityService.Services
     {
         private readonly MongoRepo _repo;
         private readonly IConfiguration _config;
+        private readonly RedisService _redis;
 
-        public AuthService(MongoRepo repo, IConfiguration config)
+        public AuthService(MongoRepo repo, IConfiguration config, RedisService redis)
         {
             this._repo = repo;
             this._config = config;
+            this._redis = redis;
         }
 
         public async Task<ResponseModel> Register(RegisterModel request)
@@ -135,14 +140,138 @@ namespace IdentityService.Services
 
         public async Task<ResponseModel> Logout()
         {
-            // Implement logout logic here (e.g., invalidate token, clear session, etc.)
-            // For stateless JWT, you might not need to do anything on the server side for logout.
             return new ResponseModel { Success = true, Message = "Logout successful" };
         }
 
-        internal object GenerateAdminToken()
+        public async Task<ResponseModel> sendOtpToUser(string email, string otp)
         {
-            throw new NotImplementedException();
+            try
+            {       
+                Console.WriteLine("Values to send OTP-> "+email+" "+otp);
+                var fromAddress = new MailAddress("dnreply20@gmail.com", "Book Store");
+                var toAddress = new MailAddress(email);
+                const string subject = "Your OTP Code";
+                string body = $"Hello,<br /><br />Following is your OTP: <b>{otp}</b>"; 
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com", 
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, "ndrx ovtq fbdf bmls") 
+                };
+
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                })
+                {
+                    await smtp.SendMailAsync(message);
+                }
+                
+                return new ResponseModel {Success = true, Message = "OTP Sent Successfully"};
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return new ResponseModel
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<ResponseModel> GetUser(string email)
+        {
+            Console.WriteLine("Searching for user in redis",email);
+            var getFromRedis = await _redis.GetFromRedis(email);
+
+            if(getFromRedis.Success)
+            {
+                return new ResponseModel
+                {
+                    Success = true,
+                    Message = "Email present"
+                };
+            }
+
+            var getFromDBAndStoreinRedis = await GetUserFromDB(email);
+            if(getFromDBAndStoreinRedis.Success)
+            {
+                Console.WriteLine("Present in DB, Storing in Redis");
+                await _redis.StoreRedisUserAsync(email);
+                return new ResponseModel
+                {
+                    Success = true,
+                    Message = "Email present"
+                };
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = "Email not present"
+            };
+        }
+
+        public async Task<ResponseModel> GetUserFromDB(string email)
+        {
+            Console.WriteLine("Getting user from DB",email);
+            var filter = Builders<RegisterModel>.Filter.Eq(u=>u.Email,email);
+            var result = await _repo.FindUserAsync("Users",filter);
+
+            if(result.Count==0)
+            {
+                return new ResponseModel{ Success = false, Message = "Not an Existing User"};
+            }
+
+            return new ResponseModel {Success = true, Message = "Existing User"};
+        }
+
+        public async Task<ResponseModel> changePasswordForUser(EmailRequest request)
+        {
+            var filter = Builders<RegisterModel>.Filter.Eq(u=>u.Email,request.Email);
+            if(!passwordConstraints(request.Password))
+            {
+                return new ResponseModel { Success = false, Message = "Password constraints not met" };
+            }
+
+            var hashPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            request.Password = hashPassword;
+
+            var update = Builders<RegisterModel>.Update.Set(c => c.Password, request.Password);
+            await _repo.UpdatePasswordAsync("Users",filter,update);
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "User Password Changed"
+            };
+        }
+
+        public async Task<ResponseModel> GetDate(string userId)
+        {
+            Console.WriteLine("Entered userid-> ",userId);
+            var filter = Builders<RegisterModel>.Filter.Eq(u=>u.Id,userId);
+            List<RegisterModel> user = await _repo.FindUserAsync("Users", filter);
+            if(user.Count<=0)
+            {
+                return new ResponseModel
+                {
+                    Success = true,
+                    Message = "user not found"
+                };
+            }
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "User details fetched",
+                User = user[0]
+            };
         }
     }
 }

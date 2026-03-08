@@ -1,25 +1,47 @@
-<div class="main flex flex-col w-screen h-screen bg-linear-to-br from-[#ecffe6] to-[#090979] m-0 p-0 overflow-hidden">
+<div class="main flex flex-col w-screen h-screen bg-[#E6F0FF] m-0 p-0 overflow-hidden">
 
-    <div  class="nav absolute flex justify-between mx-auto border-2 border-white rounded-lg m-3 relative">
-        <div *ngIf="kindOfUser!='admin'" class="slider" [style.transform]="'translateX(' + selectedIndex * 100 + '%)'"></div>
-        <a routerLink="/home/books"  routerLinkActive="active" class="nav-item" [ngClass]="{'selected' : selectedIndex === 0, 'text-black bg-white': kindOfUser=='admin'}" (click)="selectNav(0)">Home</a>
-        <a *ngIf="kindOfUser!='admin'" routerLink="/home/orders" routerLinkActive="active" class="nav-item" [class.selected]="selectedIndex === 1" (click)="selectNav(1)">Orders</a>
-        <a *ngIf="kindOfUser!='admin'" routerLink="/home/carts" routerLinkActive="active" class="nav-item" [class.selected]="selectedIndex === 2" (click)="selectNav(2)">Cart</a>
-    </div>
+    <div class="nav-bar shadow-md flex items-center">
+        <div  class="nav absolute flex justify-between mx-auto border-2 border-black rounded-lg m-3 relative overflow-hidden" [ngClass]="kindOfUser=='admin'?'w-fit':'w-[400px]'">
+            <div *ngIf="kindOfUser!='admin'" class="slider" [style.transform]="'translateX(' + selectedIndex * 100 + '%)'"></div>
+            <a routerLink="/home/books"  routerLinkActive="active-link" class="nav-item" [ngClass]="{'selected' : selectedIndex === 0, 'text-white bg-black': kindOfUser=='admin'}" (click)="selectNav(0)">Home</a>
+            <a *ngIf="kindOfUser!='admin'" routerLink="/home/orders" routerLinkActive="active-link" class="nav-item" [class.selected]="selectedIndex === 1" (click)="selectNav(1)">Orders</a>
+            <a *ngIf="kindOfUser!='admin'" routerLink="/home/carts" routerLinkActive="active-link" class="nav-item" [class.selected]="selectedIndex === 2" (click)="selectNav(2)">Cart</a>
+        </div>
 
-    <div *ngIf="kindOfUser=='admin'" class="addbook absolute top-2 right-44 flex gap-2 items-center border-2 border-black text-white p-3 rounded-lg cursor-pointer hover:text-black hover:bg-white"  (click)="addBook()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
-            <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0"/>
-        </svg>
-        <h6>Add Book</h6>
-    </div>
+        <div *ngIf="kindOfUser=='admin'" class="addbook absolute top-3 right-44 flex gap-2 items-center bg-black text-white p-2 rounded-lg cursor-pointer hover:text-black hover:bg-white"  (click)="addBook()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
+                <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0"/>
+            </svg>
+            <h6>Add Book</h6>
+        </div>
 
-    <div class="logout absolute top-2 right-8 flex gap-2 items-start border-2 border-black text-white p-3 rounded-lg cursor-pointer hover:text-black hover:bg-white"  (click)="logout()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-        </svg>
-        <h6>Logout</h6>
+        <div class="profile absolute flex flex-col top-3 right-10 flex gap-2 items-center w-[20px]">
+            <div class="hamburger">
+                <button class="menu" [class.opened]="isOpen" [class.line1-cross]="isOpen" (click)="handleAside()"  aria-label="Main Menu">
+                    <svg width="35" height="35" viewBox="0 0 100 100">
+                        <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                        <path class="line line2" d="M 20,50 H 80" />
+                        <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div [ngClass]="isOpen? 'flex': 'hidden'" class="dropdown absolute flex flex-col gap-1 right-7 mt-[25vh] bg-white text-black z-[100] rounded-lg">
+            <div class="User Settings flex gap-2 items-center hover:text-white hover:bg-black cursor-pointer p-3" (click)="profile()" >    
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
+                <p>Settings</p>
+            </div>
+            <div class="logout flex gap-2 items-center p-3 hover:text-white hover:bg-black cursor-pointer" (click)="logout()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                    <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                </svg>
+                <p>Logout</p>
+            </div>
+        </div>
     </div>
 
     <div class="bottom overflow-y-scroll">

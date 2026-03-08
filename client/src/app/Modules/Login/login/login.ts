@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpHelper } from '../../../Services/http-helper';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,13 @@ export class Login {
 
   email : string = "";
   password : string = "";
-  url : string = "";
+  emailBorderColor = '2px solid black';
+  passwordBorderColor = '2px solid black';
+
+  emailError: string = "";
+  passwordError: string = "";
+
+  toastr = inject(ToastrService);
 
   showPassword : boolean = false;
 
@@ -25,13 +32,56 @@ export class Login {
     this.showPassword = !this.showPassword;
   }
 
+  onEmailFocus()
+  {
+    this.emailBorderColor = '2px solid blue';
+  }
+
+  onEmailBlur()
+  {
+    if(this.email.length<=0){
+      this.emailError = "Email/Username is mandatory"
+      this.emailBorderColor = '2px solid red';
+    }
+    else {
+      this.emailError = "";
+      this.emailBorderColor = '2px solid green';
+    }
+  }
+
+  onPasswordFocus()
+  {
+    this.passwordBorderColor = '2px solid blue';
+  }
+
+  onPasswordBlur()
+  {
+    if(this.password.length<=0){
+      this.passwordError = "Password is mandatory"
+      this.passwordBorderColor = '2px solid red';
+    }
+    else {
+      this.passwordError = "";
+      this.passwordBorderColor = '2px solid green';
+    }
+  }
+
   login()
   {
-    alert('clicked');
-    this.url = 'http://localhost:5227/api'; 
+    if(this.emailError.length<0 || this.passwordError.length<0){
+      this.toastr.warning('Please Fill the required fields', 'Warning');
+      return;
+    }
+
+    if(this.email.length<=0 || this.password.length<=0){
+      this.toastr.warning('Please Fill the required fields', 'Warning');
+      return;
+    }
+    
+    var apiUrl = 'http://localhost:5227/api'; 
     var payload = { Email: this.email, Password: this.password };
     console.log("Payload-> ", payload);
-    this.httpHelper.post(this.url, 'auth/login', payload)
+    this.httpHelper.post(apiUrl, 'auth/login', payload)
     .subscribe({
       next: (response: any) => {
         console.log('Login successful:', response);
@@ -41,7 +91,7 @@ export class Login {
       },
       error: (error) => {
         console.error('Login failed:', error);
-        alert('Login failed: ' + (error.error?.message || 'Unknown error'));
+        this.toastr.error(error.error.message, 'Error');
       }
     });
   }

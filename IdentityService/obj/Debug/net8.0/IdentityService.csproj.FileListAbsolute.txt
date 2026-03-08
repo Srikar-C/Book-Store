@@ -45,3 +45,14 @@ C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Micros
 C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\obj\Debug\net8.0\IdentityService.sourcelink.json
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\StackExchange.Redis.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\nataraj024\Documents\Book-store\IdentityService\bin\Debug\net8.0\System.IO.Hashing.dll

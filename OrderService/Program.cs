@@ -39,6 +39,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 
 builder.Services.AddSingleton<CartService>();
 builder.Services.AddSingleton<OrdService>();
+builder.Services.AddSingleton<KafkaProducer>();
 
 builder.Services.AddSingleton<MongoRepo>();
 

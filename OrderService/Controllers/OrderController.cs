@@ -39,7 +39,7 @@ public class OrderController: ControllerBase
         var orders = await _service.GetOrders(userId);
         if (orders.Success)
         {
-            return Ok(new {message= orders.Message, data = orders.Data});
+            return Ok(new {message= orders.Message, data = orders.Orders});
         }
         else
         {

@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "DYNku+tyrOg=",
+  "dgSpecHash": "CnIKedA6iBw=",
   "success": true,
   "projectFilePath": "C:\\Users\\nataraj024\\Documents\\Book-store\\CatalogueService\\CatalogueService.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\nataraj024\\.nuget\\packages\\confluent.kafka\\2.13.2\\confluent.kafka.2.13.2.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\nataraj024\\.nuget\\packages\\librdkafka.redist\\2.13.2\\librdkafka.redist.2.13.2.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.0.0\\microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
