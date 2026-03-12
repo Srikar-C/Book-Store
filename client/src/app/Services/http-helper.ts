@@ -18,7 +18,7 @@ export class HttpHelper {
     return this.http.post<any>(`${url}/${endpoint}`, body, options);
   }
 
-  delete( url: string, endpoint: string, body: any, options?: any): Observable<any> {
+  delete( url: string, endpoint: string, body?: any, options?: any): Observable<any> {
     const httpOptions = {
       ...options,
       body: body

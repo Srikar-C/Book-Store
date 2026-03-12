@@ -40,7 +40,7 @@ export class Profile {
       Authorization: `Bearer ${token}`
     });
     console.log("token", token,headers);
-    this.httpHelper.post(apiUrl,'auth/getProfile',userId)
+    this.httpHelper.get(apiUrl,'auth/getProfile',{ headers: headers })
     .subscribe({
       next: (response)=>{
         console.log("response-> ",response);

@@ -27,6 +27,11 @@ export class Verify {
 
     console.log("call",this.email,this.mailOtp);
     
+    if(this.otp==null || this.mailOtp==null || this.email==null)
+    {
+      this.router.navigate(['/login']);
+      return;
+    }
   }
 
   otp: string = "";
@@ -55,8 +60,18 @@ export class Verify {
     console.log("OTP-> ",this.otp,this.mailOtp,this.email);
     if(this.otp===this.mailOtp)
     {
-      this.router.navigate(['/change-password'],{
-        state: {email: this.email}, replaceUrl: true
+      var apiUrl = 'http://localhost:5227/api'; 
+      this.httpHelper.post(apiUrl,'auth/verify',{Password: this.otp, Email: this.email})
+      .subscribe({
+        next: (response)=>{
+          console.log('response fro verification-> ',response);
+          this.router.navigate(['/change-password'],{
+            state: {email: this.email}, replaceUrl: true
+          });
+        },
+        error: (error)=>{
+          console.log('error',error);
+        }
       });
     }
     else{

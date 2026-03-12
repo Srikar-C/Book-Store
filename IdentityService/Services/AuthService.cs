@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using IdentityService.Repositories;
@@ -116,7 +117,6 @@ namespace IdentityService.Services
 
         public string GenerateJSONWebToken(UserModel userInfo)
         {
-            // Implement JWT generation logic here
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -143,8 +143,11 @@ namespace IdentityService.Services
             return new ResponseModel { Success = true, Message = "Logout successful" };
         }
 
-        public async Task<ResponseModel> sendOtpToUser(string email, string otp)
+        public async Task<ResponseModel> sendOtpToUser(string email)
         {
+            Console.WriteLine("Entering to create a otp"+ email);
+            var random = RandomNumberGenerator.GetInt32(100000, 999999);
+            string otp = random.ToString();
             try
             {       
                 Console.WriteLine("Values to send OTP-> "+email+" "+otp);
@@ -172,8 +175,10 @@ namespace IdentityService.Services
                 {
                     await smtp.SendMailAsync(message);
                 }
-                
-                return new ResponseModel {Success = true, Message = "OTP Sent Successfully"};
+
+                await _redis.StoreOTPInRedis(email,otp);
+
+                return new ResponseModel { Success = true, Message = "OTP Sent Successfully", User = new RegisterModel{ Username = otp }};
             }
             catch (Exception ex)
             {
@@ -185,6 +190,52 @@ namespace IdentityService.Services
                     Message = ex.Message
                 };
             }
+        }
+
+        public async Task<ResponseModel> VerifyOTP(EmailRequest request)
+        {
+            Console.WriteLine("Get into service for OTP verify");
+            var getOTPFromRedis = await _redis.GetOTPFromRedis(request.Email);
+            Console.WriteLine("Details from Redis",getOTPFromRedis);
+            if(getOTPFromRedis.Success)
+            {
+                Console.WriteLine("OTP-> "+request.Password+" "+getOTPFromRedis.Message+" -> "+(request.Password == getOTPFromRedis.Message)+" , "+(request.Password == getOTPFromRedis.Message));
+                if(request.Password == getOTPFromRedis.Message)
+                {
+                    var delete = await _redis.DeleteOTPFromRedis(request.Email);
+                    if(delete.Success)
+                    {
+                        return new ResponseModel
+                        {
+                            Success = true,
+                            Message = "OTP verified"
+                        };
+                    }
+                    else
+                    {
+                        return new ResponseModel
+                        {
+                            Success = false,
+                            Message = delete.Message
+                        };
+                    }
+
+                }
+                else
+                {
+                    return new ResponseModel
+                    {
+                        Success = false,
+                        Message = "Invalid OTP"
+                    };
+                }
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = "OTP Expired"
+            };
+
         }
 
         public async Task<ResponseModel> GetUser(string email)
@@ -273,5 +324,6 @@ namespace IdentityService.Services
                 User = user[0]
             };
         }
+
     }
 }

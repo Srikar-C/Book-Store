@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nataraj024\\Documents\\Book-store\\OrderService\\OrderService.csproj": {}
+    "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\OrderService\\OrderService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nataraj024\\Documents\\Book-store\\OrderService\\OrderService.csproj": {
+    "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\OrderService\\OrderService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nataraj024\\Documents\\Book-store\\OrderService\\OrderService.csproj",
+        "projectUniqueName": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\OrderService\\OrderService.csproj",
         "projectName": "OrderService",
-        "projectPath": "C:\\Users\\nataraj024\\Documents\\Book-store\\OrderService\\OrderService.csproj",
+        "projectPath": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\OrderService\\OrderService.csproj",
         "packagesPath": "C:\\Users\\nataraj024\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nataraj024\\Documents\\Book-store\\OrderService\\obj\\",
+        "outputPath": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\OrderService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nataraj024\\AppData\\Roaming\\NuGet\\NuGet.Config"

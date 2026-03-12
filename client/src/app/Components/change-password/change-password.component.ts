@@ -35,6 +35,11 @@ export class ChangePasswordComponent {
   {
     this.email = history.state.email;
 
+    if(this.email==null)
+    {
+      this.router.navigate(['/login']);
+      return;
+    }
   }
   
   togglePasswordView()

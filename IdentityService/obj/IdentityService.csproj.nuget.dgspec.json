@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nataraj024\\Documents\\Book-store\\IdentityService\\IdentityService.csproj": {}
+    "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\IdentityService\\IdentityService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nataraj024\\Documents\\Book-store\\IdentityService\\IdentityService.csproj": {
+    "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\IdentityService\\IdentityService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nataraj024\\Documents\\Book-store\\IdentityService\\IdentityService.csproj",
+        "projectUniqueName": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\IdentityService\\IdentityService.csproj",
         "projectName": "IdentityService",
-        "projectPath": "C:\\Users\\nataraj024\\Documents\\Book-store\\IdentityService\\IdentityService.csproj",
+        "projectPath": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\IdentityService\\IdentityService.csproj",
         "packagesPath": "C:\\Users\\nataraj024\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nataraj024\\Documents\\Book-store\\IdentityService\\obj\\",
+        "outputPath": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\IdentityService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nataraj024\\AppData\\Roaming\\NuGet\\NuGet.Config"

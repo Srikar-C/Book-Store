@@ -74,15 +74,25 @@ public class AuthController: ControllerBase
             return BadRequest(new {message = existingUser.Message});
         }
 
-        Console.WriteLine("Entering to create a otp"+ request.Email);
-        var random = RandomNumberGenerator.Create();
-        var bytes = new byte[6 / 2]; 
-        random.GetBytes(bytes);
-        string otp = BitConverter.ToString(bytes).Replace("-", "").Substring(0, 6);
-        var result = await _service.sendOtpToUser(request.Email,otp);
+        var result = await _service.sendOtpToUser(request.Email);
         if (result.Success)
         {
-            return Ok(new {message= result.Message, otp = otp, email = request.Email});
+            return Ok(new {message= result.Message, otp = result.User.Username, email = request.Email});
+        }
+        else
+        {
+            return BadRequest(new {message= result.Message});
+        }
+    }
+
+    [HttpPost("verify")]
+    public async Task<IActionResult> Verify([FromBody] EmailRequest request)
+    {
+        Console.WriteLine("Entering to verify OTP", request.Email);
+        var result =await _service.VerifyOTP(request);
+        if (result.Success)
+        {
+            return Ok(new {message= result.Message, email = request.Email});
         }
         else
         {
@@ -105,12 +115,13 @@ public class AuthController: ControllerBase
         }
     }
 
-    [HttpPost("getProfile")]
-    public async Task<IActionResult> GetProfile([FromBody] LoginModel request)
+    [Authorize]
+    [HttpGet("getProfile")]
+    public async Task<IActionResult> GetProfile()
     {
-        // var userId = User.FindFirst("id")?.Value;
-        Console.WriteLine("Entered to get user profile "+request.Id);
-        var result = await _service.GetDate(request.Id);
+        var userId = User.FindFirst("id")?.Value;
+        Console.WriteLine("Entered to get user profile "+userId);
+        var result = await _service.GetDate(userId);
         if(result.Success)
         {
             return Ok(new {message = result.Message, data = result.User});

@@ -10,10 +10,11 @@ import { Carts } from './Modules/Orders/carts/carts';
 import { Verify } from './Modules/Register/verify/verify';
 import { BookentryComponent } from './Components/bookentry/bookentry.component';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
+import { authGuardGuard } from './Components/auth-guard.guard';
+import { PagenotfoundComponent } from './Components/pagenotfound/pagenotfound.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: '', component: Login },
     { path: 'forgot-password', component: Forgot },
     { path: 'signup', component: Register },
     { path: 'login', component: Login },
@@ -29,6 +30,8 @@ export const routes: Routes = [
             { path: 'carts', component: Carts },
             { path: 'addBook', component: BookentryComponent },
             { path: 'editBook', component: BookentryComponent }
-        ]
+        ],
+        canActivate: [authGuardGuard]
     },
+    { path: '**', component: PagenotfoundComponent }
 ];

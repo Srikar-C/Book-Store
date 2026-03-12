@@ -12,7 +12,27 @@ namespace IdentityService.Services
             this._redis = redis;
         }
 
-        internal async Task<ResponseModel> GetFromRedis(string email)
+        public async Task<ResponseModel> GetOTPFromRedis(string email)
+        {
+            string key = $"otp:{email}";
+            var data = await _redis.StringGetAsync(key);
+            Console.WriteLine("otp-> :"+data);
+            if (data.IsNullOrEmpty)
+            {
+                return new ResponseModel
+                {
+                    Success = false,
+                    Message = "OTP not present in Redis/ Expired"
+                };
+            }
+            return new ResponseModel
+            {
+                Success = true,
+                Message = data
+            };
+        }
+
+        public async Task<ResponseModel> GetFromRedis(string email)
         {
             string key = $"user:{email}";
             var data = await _redis.StringGetAsync(key);
@@ -27,7 +47,7 @@ namespace IdentityService.Services
             return new ResponseModel
             {
                 Success = true,
-                Message = "Emai retrieved from Redis",
+                Message = "Email retrieved from Redis",
             };
         }
 
@@ -46,5 +66,31 @@ namespace IdentityService.Services
             };
         }
 
+        public async Task<ResponseModel> StoreOTPInRedis(string email, string otp)
+        {
+            Console.WriteLine("Storing otp in redis",email);
+            string key = $"otp:{email}";
+
+            await _redis.StringSetAsync(key,otp, TimeSpan.FromMinutes(2));
+
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "OTP stored in Redis"
+            };
+        }
+
+        public async Task<ResponseModel> DeleteOTPFromRedis(string email)
+        {
+            string key = $"otp:{email}";
+
+            await _redis.KeyDeleteAsync(key);
+
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "OTP cleared"
+            };
+        }
     }
 }

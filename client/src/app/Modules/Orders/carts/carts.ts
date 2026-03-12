@@ -54,11 +54,10 @@ export class Carts {
       var apiUrl = 'http://localhost:5284/api'; 
       const token = localStorage.getItem('token');
       console.log('Removing from cart:', carts);
-      var payload = { bookId: carts.id };
       const headers = new HttpHeaders({
         Authorization: `Bearer ${token}`
       });
-      this.httpHelper.delete(apiUrl, `cart/decrementFromCart/${carts.id}`, payload, { headers: headers })
+      this.httpHelper.delete(apiUrl, `cart/decrementFromCart/${carts.id}`, { headers: headers })
       .subscribe({
         next: (response) => {
           console.log('Book removed from cart successfully:', response);

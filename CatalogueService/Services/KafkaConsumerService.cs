@@ -31,7 +31,7 @@ public class KafkaConsumerService : BackgroundService
             while (!stoppingToken.IsCancellationRequested)
             {
                 var result = consumer.Consume(stoppingToken);
-                Console.WriteLine("Kafka Event Received:");
+                Console.WriteLine("Kafka Event Received:"+result);
 
                 var orderEvent = JsonSerializer.Deserialize<OrderCreatedEvent>(result.Message.Value);
 

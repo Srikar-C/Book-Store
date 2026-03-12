@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CnIKedA6iBw=",
+  "dgSpecHash": "NCdTLFyaXaQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\nataraj024\\Documents\\Book-store\\CatalogueService\\CatalogueService.csproj",
+  "projectFilePath": "C:\\Users\\nataraj024\\Documents\\srikar\\Book-store\\CatalogueService\\CatalogueService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nataraj024\\.nuget\\packages\\confluent.kafka\\2.13.2\\confluent.kafka.2.13.2.nupkg.sha512",
     "C:\\Users\\nataraj024\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",

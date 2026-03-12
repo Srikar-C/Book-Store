@@ -26,14 +26,14 @@
                 </button>
             </div>
         </div>
-        <div [ngClass]="isOpen? 'flex': 'hidden'" class="dropdown absolute flex flex-col gap-1 right-7 mt-[25vh] bg-white text-black z-[100] rounded-lg">
-            <div class="User Settings flex gap-2 items-center hover:text-white hover:bg-black cursor-pointer p-3" (click)="profile()" >    
+        <div [ngClass]="isOpen? 'flex': 'hidden'" class="dropdown absolute flex flex-col gap-1 right-7 mt-[16vh] bg-white text-black z-[100] rounded-lg">
+            <!-- <div class="User Settings flex gap-2 items-center hover:text-white hover:bg-black cursor-pointer p-3" (click)="profile()" >    
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                 </svg>
                 <p>Settings</p>
-            </div>
+            </div> -->
             <div class="logout flex gap-2 items-center p-3 hover:text-white hover:bg-black cursor-pointer" (click)="logout()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>

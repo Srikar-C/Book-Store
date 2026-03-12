@@ -9,7 +9,6 @@ export const authInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastr = inject(ToastrService);
 
-  // Add Authorization header if token exists
   if (token) {
     req = req.clone({
       setHeaders: {
@@ -23,7 +22,6 @@ export const authInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       error: (err: any) => {
         if (err.status === 401) {
-          // Clear token and redirect to login
           localStorage.removeItem('token');
           toastr.error('Session expired. Please login again.', 'Unauthorized');
           router.navigate(['/login']);
