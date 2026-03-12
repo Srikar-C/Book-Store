@@ -92,5 +92,58 @@ namespace IdentityService.Services
                 Message = "OTP cleared"
             };
         }
+
+        public async Task<ResponseModel> SetUserInRedis(RegisterModel request)
+        {
+            string key = $"cache:{request.Username}";
+            string json = JsonSerializer.Serialize(request);
+
+            await _redis.StringSetAsync(key,json);
+
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "Cache stored in redis"
+            };
+        }
+
+        public async Task<ResponseModel> GetUserFromRedis(string username)
+        {
+            Console.WriteLine("Entered",username);
+            string key = $"cache:{username}";
+
+            var data = await _redis.StringGetAsync(key);
+
+            Console.WriteLine("dfshdf-> "+data.ToString());
+
+            RegisterModel obj = JsonSerializer.Deserialize<RegisterModel>(data);
+
+            if (data.IsNullOrEmpty)
+                return new ResponseModel
+                {
+                    Success = true,
+                    Message = "Cache is Empty"
+                };
+
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "Cache retrieved",
+                User = obj
+            };
+        }
+
+        public async Task<ResponseModel> KeyUserDeleteAsync(string username)
+        {
+            string key = $"cache:{username}";
+
+            await _redis.KeyDeleteAsync(key);
+
+            return new ResponseModel
+            {
+                Success = true,
+                Message = "OTP cleared"
+            };
+        }
     }
 }

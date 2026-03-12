@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using IdentityService.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
@@ -61,9 +62,13 @@ namespace IdentityService.Services
 
             request.Password = hashPassword;
 
-            await _repo.InsertUserAsync("Users",request);
+            var redisresponse = await _redis.SetUserInRedis(request);
 
-            return new ResponseModel { Success = true, Message = "User registered successfully" };
+            ResponseModel sendotp = await sendOtpToUser(request.Email);
+
+           // await _repo.InsertUserAsync("Users",request);
+
+            return new ResponseModel { Success = true, Message = "User registered successfully", User = new RegisterModel{Username = request.Username, Password = sendotp.User.Username} };
         }
 
         public bool passwordConstraints(string password)
@@ -325,5 +330,29 @@ namespace IdentityService.Services
             };
         }
 
+        public async Task<ResponseModel> GetUserFromCache(string username)
+        {
+            Console.WriteLine("Entered",username);
+            var user = await _redis.GetUserFromRedis(username);
+            if(user.Success)
+            {
+                await _repo.InsertUserAsync("Users",user.User);
+                
+                await _redis.KeyUserDeleteAsync(username);
+
+                return new ResponseModel
+                {
+                    Success = true,
+                    Message = "Retrieved user from cache and storedin db and removed from cache",
+                    User = user.User,
+                };
+            }
+            Console.WriteLine("Entered",username);
+            return new ResponseModel
+            {
+                Success = false,
+                Message = "Error in retreiving from redis",
+            };
+        }
     }
 }

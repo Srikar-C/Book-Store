@@ -23,6 +23,22 @@ public class AuthController: ControllerBase
 
         if (result.Success)
         {
+            return Ok(new {message= result.Message, User=result.User});
+        }
+        else
+        {
+            return BadRequest(new {message= result.Message});
+        }
+    }
+
+    [HttpPost("completeRegistration")]
+    public async Task<IActionResult> CompleteRegister([FromBody] EmailRequest request)
+    {
+        Console.WriteLine("Entered",request.Email);
+        ResponseModel result = await _service.GetUserFromCache(request.Email);
+        Console.WriteLine("Entered");
+        if (result.Success)
+        {
             return Ok(new {message= result.Message});
         }
         else

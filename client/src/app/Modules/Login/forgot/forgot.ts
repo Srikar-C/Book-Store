@@ -50,7 +50,7 @@ export class Forgot {
         console.log("otp-> :",response);
         this.toastr.info('OTP sent to your Email','Info');
         this.router.navigate(['/verify'],{
-          state: {otp: response.otp, email: response.email},replaceUrl:true
+          state: {otp: response.otp, email: response.email, type: 0},replaceUrl:true
         });
       },
       error: (error)=>{

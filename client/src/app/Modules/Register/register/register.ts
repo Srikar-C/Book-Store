@@ -105,9 +105,9 @@ export class Register {
     this.httpHelper.post(apiUrl, 'auth/register', payload)
     .subscribe({
       next: (response) => {
-        console.log('Registration successful:', response);
+        console.log('Registration stored in cache successful:', response);
         localStorage.setItem('userEmail', this.email);
-        this.router.navigate(['/login'],{ replaceUrl: true })
+        this.router.navigate(['/verify'],{ state:{type:1,email:this.email,otp:response.user.password,username :response.user.username}, replaceUrl: true })
       },
       error: (error) => {
         console.error('Registration failed:', error);

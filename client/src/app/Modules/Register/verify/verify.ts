@@ -17,6 +17,8 @@ export class Verify {
 
   mailOtp: string = "";
   email: string = "";
+  type: number = 2;
+  username: string = "";
 
   toastr = inject(ToastrService);
 
@@ -24,8 +26,10 @@ export class Verify {
   {
     this.mailOtp = history.state.otp;
     this.email = history.state.email;
+    this.type = history.state.type;
+    this.username = history.state.username;
 
-    console.log("call",this.email,this.mailOtp);
+    console.log("call",this.email,this.mailOtp,this.type);
     
     if(this.otp==null || this.mailOtp==null || this.email==null)
     {
@@ -61,18 +65,35 @@ export class Verify {
     if(this.otp===this.mailOtp)
     {
       var apiUrl = 'http://localhost:5227/api'; 
-      this.httpHelper.post(apiUrl,'auth/verify',{Password: this.otp, Email: this.email})
-      .subscribe({
-        next: (response)=>{
-          console.log('response fro verification-> ',response);
-          this.router.navigate(['/change-password'],{
-            state: {email: this.email}, replaceUrl: true
-          });
-        },
-        error: (error)=>{
-          console.log('error',error);
-        }
-      });
+      if(this.type == 0){
+        this.httpHelper.post(apiUrl,'auth/verify',{Password: this.otp, Email: this.email})
+        .subscribe({
+          next: (response)=>{
+            console.log('response fro verification-> ',response);
+            this.router.navigate(['/change-password'],{
+              state: {email: this.email}, replaceUrl: true
+            });
+          },
+          error: (error)=>{
+            console.log('error',error);
+          }
+        });
+      }
+      else if(this.type==1)
+      {
+        console.log("payload-> ",this.username);
+        this.httpHelper.post(apiUrl,'auth/completeRegistration',{Email:this.username})
+        .subscribe({
+          next: (response)=>{
+            console.log('response fro verification-> ',response);
+            this.router.navigate(['/login'],{ replaceUrl: true
+            });
+          },
+          error: (error)=>{
+            console.log('error',error);
+          }
+        });
+      }
     }
     else{
       this.toastr.error("OTP is incorrect",'Error');
