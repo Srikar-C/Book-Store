@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgOtpInputComponent } from 'ng-otp-input';
 import { HttpHelper } from '../../../Services/http-helper';
@@ -13,12 +13,14 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Verify {
 
-  constructor(private httpHelper: HttpHelper, private router: Router){}
+  constructor(private httpHelper: HttpHelper, private router: Router, private cdr: ChangeDetectorRef){}
 
   mailOtp: string = "";
   email: string = "";
   type: number = 2;
   username: string = "";
+
+  loader: boolean = false;
 
   toastr = inject(ToastrService);
 
@@ -62,6 +64,11 @@ export class Verify {
   verifyOTP()
   {
     console.log("OTP-> ",this.otp,this.mailOtp,this.email);
+    if(this.otp.length<=0){
+      this.toastr.warning('Please Fill the required fields', 'Warning');
+      return;
+    }
+
     if(this.otp===this.mailOtp)
     {
       var apiUrl = 'http://localhost:5227/api'; 
@@ -86,10 +93,16 @@ export class Verify {
         .subscribe({
           next: (response)=>{
             console.log('response fro verification-> ',response);
-            this.router.navigate(['/login'],{ replaceUrl: true
+            this.loader = false;
+            this.cdr.detectChanges();
+            setTimeout(()=>{
+              this.router.navigate(['/login'],{ replaceUrl: true});
             });
           },
           error: (error)=>{
+            
+        this.loader = false;
+        this.cdr.detectChanges();
             console.log('error',error);
           }
         });

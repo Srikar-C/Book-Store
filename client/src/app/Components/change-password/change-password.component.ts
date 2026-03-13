@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { HttpHelper } from '../../Services/http-helper';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ChangePasswordComponent {
 
-  constructor(private httpHelper: HttpHelper, private router: Router){}
+  constructor(private httpHelper: HttpHelper, private router: Router, private cdr: ChangeDetectorRef){}
 
   passwordError: string = "";
   cfnpasswordError: string = "";
@@ -28,6 +28,7 @@ export class ChangePasswordComponent {
   cfnPasswordBorderColor = '2px solid black';
 
   email: string = "";
+  loader: boolean = false;
 
   toastr = inject(ToastrService);
 
@@ -88,19 +89,32 @@ export class ChangePasswordComponent {
 
   changePassword()
   {
+    if(this.cfnpassword.length<=0 || this.password.length<=0){
+      this.toastr.warning('Please Fill the required fields', 'Warning');
+      return;
+    }
+
     console.log("password: "+this.password,this.cfnpassword,this.email);
     if(this.password===this.cfnpassword)
     {
-    var apiUrl = 'http://localhost:5227/api'; 
-    var payload = { Email: this.email, Password: this.password };
+      this.loader = true;
+      var apiUrl = 'http://localhost:5227/api'; 
+      var payload = { Email: this.email, Password: this.password };
       this.httpHelper.post(apiUrl,'auth/changePassword',payload)
       .subscribe({
         next: (response: any)=>{
           console.log('Password changed Successfully');
+          this.loader = false;
+          this.cdr.detectChanges();
           this.toastr.success('Password changed','Success');
-          this.router.navigate(['/login'],{replaceUrl:true});
+
+          setTimeout(()=>{
+            this.router.navigate(['/login'],{replaceUrl:true});
+          })
         },
         error: (error)=>{
+          this.loader = false;
+          this.cdr.detectChanges();
           console.error('Failed to change password:', error);
           this.toastr.error(error.error.message, 'Error');
         }

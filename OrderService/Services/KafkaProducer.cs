@@ -12,7 +12,7 @@ public class KafkaProducer
             BootstrapServers = _bootstrapServers
         };
 
-        using var producer = new ProducerBuilder<Null, string>(config).Build();
+        var producer = new ProducerBuilder<Null, string>(config).Build();
 
         var json = JsonSerializer.Serialize(message);
 

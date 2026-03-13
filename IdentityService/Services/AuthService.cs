@@ -246,7 +246,7 @@ namespace IdentityService.Services
         public async Task<ResponseModel> GetUser(string email)
         {
             Console.WriteLine("Searching for user in redis",email);
-            var getFromRedis = await _redis.GetFromRedis(email);
+            var getFromRedis = await _redis.GetEmailFromRedis(email);
 
             if(getFromRedis.Success)
             {
@@ -289,7 +289,7 @@ namespace IdentityService.Services
             return new ResponseModel {Success = true, Message = "Existing User"};
         }
 
-        public async Task<ResponseModel> changePasswordForUser(EmailRequest request)
+        public async Task<ResponseModel> ChangePasswordForUser(EmailRequest request)
         {
             var filter = Builders<RegisterModel>.Filter.Eq(u=>u.Email,request.Email);
             if(!passwordConstraints(request.Password))

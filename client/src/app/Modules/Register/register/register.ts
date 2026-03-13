@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HttpHelper } from '../../../Services/http-helper';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Register {
 
-  constructor(private httpHelper : HttpHelper, private router: Router) {}
+  constructor(private httpHelper : HttpHelper, private router: Router, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {}
   
   username: string = "";
   email : string = "";
@@ -26,6 +27,8 @@ export class Register {
   usernameError: string = "";
   emailError: string = "";
   passwordError: string = "";
+
+  loader: boolean = false;
 
 
   showPassword : boolean = false;
@@ -100,18 +103,27 @@ export class Register {
       return;
     }
 
+    this.loader = true;
     var apiUrl = 'http://localhost:5227/api'; 
     var payload = { Username: this.username, Email: this.email, Password: this.password };
     this.httpHelper.post(apiUrl, 'auth/register', payload)
     .subscribe({
       next: (response) => {
         console.log('Registration stored in cache successful:', response);
+        this.loader = false;
+        this.cdr.detectChanges();
         localStorage.setItem('userEmail', this.email);
-        this.router.navigate(['/verify'],{ state:{type:1,email:this.email,otp:response.user.password,username :response.user.username}, replaceUrl: true })
+        setTimeout(() => {
+          this.router.navigate(['/verify'],{ state:{type:1,email:this.email,otp:response.user.password,username :response.user.username}, replaceUrl: true })
+        });
       },
       error: (error) => {
+        this.loader = false;
+        this.cdr.detectChanges();
         console.error('Registration failed:', error);
-        this.toastr.error(error.error.message, 'Error');
+        setTimeout(() => {
+          this.toastr.error(error.error.message, 'Error');
+        });
       }
     });
   }

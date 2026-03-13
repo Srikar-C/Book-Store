@@ -32,7 +32,7 @@ namespace IdentityService.Services
             };
         }
 
-        public async Task<ResponseModel> GetFromRedis(string email)
+        public async Task<ResponseModel> GetEmailFromRedis(string email)
         {
             string key = $"user:{email}";
             var data = await _redis.StringGetAsync(key);

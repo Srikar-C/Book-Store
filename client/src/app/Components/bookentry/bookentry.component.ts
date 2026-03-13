@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { HttpHelper } from '../../Services/http-helper';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class BookentryComponent {
 
-  constructor(private httpHelper: HttpHelper, private router: Router) { }
+  constructor(private httpHelper: HttpHelper, private router: Router, private cdr: ChangeDetectorRef) { }
 
   toastr = inject(ToastrService);
 
@@ -26,6 +26,8 @@ export class BookentryComponent {
   id: string = "";
 
   book: any = "";
+
+  loader: boolean = false;
 
   ngOnInit()
   {
@@ -46,15 +48,22 @@ export class BookentryComponent {
   onAddBook() {
     var payload = { Title: this.title, Author: this.author, Url: this.url, Price: this.price, Quantity: this.quantity };
     console.log("Payload-> ", payload);
+    this.loader = true;
     var apiUrl = 'http://localhost:5128/api';
     this.httpHelper.post(apiUrl, "books/addBooks", payload)
     .subscribe({
       next: (response) => {
         console.log("Book added successfully!", response);
+        this.loader = false;
+        this.cdr.detectChanges();
         this.toastr.success('Book added successfully!', 'Success');
-        this.router.navigate(['/home/books']);
+        setTimeout(()=>{
+          this.router.navigate(['/home/books']);
+        })
       },
       error: (error) => {
+        this.loader = false;
+        this.cdr.detectChanges();
         console.error("Error adding book:", error);
         this.toastr.error('Error adding book. Please try again.', 'Error');
       }
@@ -65,15 +74,22 @@ export class BookentryComponent {
   {
     var payload = { Title: this.title, Author: this.author, Url: this.url, Price: this.price, Quantity: this.quantity, Id: this.id };
     console.log("Payload-> ", payload);
+    this.loader = true;
     var apiUrl = 'http://localhost:5128/api';
     this.httpHelper.post(apiUrl, "books/editBook", payload)
     .subscribe({
       next: (response) => {
+        this.loader = false;
+        this.cdr.detectChanges();
         console.log("Book added successfully!", response);
         this.toastr.success('Book edited successfully!', 'Success');
-        this.router.navigate(['/home/books']);
+        setTimeout(()=>{
+          this.router.navigate(['/home/books']);
+        })
       },
       error: (error) => {
+        this.loader = false;
+        this.cdr.detectChanges();
         console.error("Error adding book:", error);
         this.toastr.error('Error editing book. Please try again.', 'Error');
       }

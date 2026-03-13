@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpHelper } from '../../../Services/http-helper';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Login { 
 
-  constructor(private httpHelper : HttpHelper, private router: Router) {}
+  constructor(private httpHelper : HttpHelper, private router: Router, private cdr: ChangeDetectorRef) {}
 
   email : string = "";
   password : string = "";
@@ -26,6 +27,8 @@ export class Login {
   toastr = inject(ToastrService);
 
   showPassword : boolean = false;
+
+  loader: boolean = false;
 
   toggleView()
   {
@@ -77,7 +80,7 @@ export class Login {
       this.toastr.warning('Please Fill the required fields', 'Warning');
       return;
     }
-    
+    this.loader = true;
     var apiUrl = 'http://localhost:5227/api'; 
     var payload = { Email: this.email, Password: this.password };
     console.log("Payload-> ", payload);
@@ -87,9 +90,15 @@ export class Login {
         console.log('Login successful:', response);
         localStorage.setItem('token', response.token);
         localStorage.setItem('userEmail', this.email);
-        this.router.navigate(['/home/books'],{ replaceUrl: true })
+        this.loader = false;
+        this.cdr.detectChanges();
+        setTimeout(()=>{
+          this.router.navigate(['/home/books'],{ replaceUrl: true })
+        })
       },
       error: (error) => {
+        this.loader = false;
+        this.cdr.detectChanges();
         console.error('Login failed:', error);
         this.toastr.error(error.error.message, 'Error');
       }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpHelper } from '../../../Services/http-helper';
@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Forgot {
 
-  constructor(private httpHelper : HttpHelper, private router: Router) {}
+  constructor(private httpHelper : HttpHelper, private router: Router, private cdr: ChangeDetectorRef) {}
 
   email : string = "";
 
@@ -21,6 +21,8 @@ export class Forgot {
   emailError: string = "";
 
   toastr = inject(ToastrService);
+
+  loader: boolean = false;
 
   onEmailFocus()
   {
@@ -40,7 +42,11 @@ export class Forgot {
   }
 
   sendOtp()
-  {
+  {if(this.email.length<=0){
+      this.toastr.warning('Please Fill the required fields', 'Warning');
+      return;
+    }
+
     var apiUrl = 'http://localhost:5227/api'; 
     var payload = {Email: this.email};
     console.log('Payload: ',payload);
@@ -48,12 +54,18 @@ export class Forgot {
     .subscribe({
       next: (response)=>{
         console.log("otp-> :",response);
+        this.loader = false;
+        this.cdr.detectChanges();
         this.toastr.info('OTP sent to your Email','Info');
-        this.router.navigate(['/verify'],{
-          state: {otp: response.otp, email: response.email, type: 0},replaceUrl:true
-        });
+        setTimeout(()=>{
+          this.router.navigate(['/verify'],{
+            state: {otp: response.otp, email: response.email, type: 0},replaceUrl:true
+          });
+        })
       },
       error: (error)=>{
+        this.loader = false;
+        this.cdr.detectChanges();
         console.log("error-> ",error);
         this.toastr.error(error.error.message,'Error');
       }

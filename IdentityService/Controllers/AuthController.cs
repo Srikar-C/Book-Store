@@ -120,7 +120,7 @@ public class AuthController: ControllerBase
     public async Task<IActionResult> ChangePassword([FromBody] EmailRequest request)
     {
         Console.WriteLine("Entered to change password for user",request.Email);
-        var result = await _service.changePasswordForUser(request);
+        var result = await _service.ChangePasswordForUser(request);
         if(result.Success)
         {
             return Ok(new {message= result.Message});
